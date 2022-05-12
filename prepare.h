@@ -7,14 +7,14 @@
 #ifndef __CONTROL_H__
 #define __CONTROL_H__
 
-void gotoXY(int x, int y);				//¹â±êÒÆ¶¯
-void hideCur();							//Òş²Ø¹â±ê
-void showCur();                         //ÏÔÊ¾¹â±ê
-void setColor(int color);				//ÉèÖÃ´òÓ¡×ÖÌåµÄÑÕÉ«
+void gotoXY(int x, int y);				//å…‰æ ‡ç§»åŠ¨
+void hideCur();							//éšè—å…‰æ ‡
+void showCur();                         //æ˜¾ç¤ºå…‰æ ‡
+void setColor(int color);				//è®¾ç½®æ‰“å°å­—ä½“çš„é¢œè‰²
 void resetColor();
-void setWindowSize(int x, int y);		//ÉèÖÃ´°¿Ú´óĞ¡
-void readRecord();						//¶ÁÈ¡¼ÇÂ¼
-void saveRecord();						//±£´æ¼ÇÂ¼
+void setWindowSize(int x, int y);		//è®¾ç½®çª—å£å¤§å°
+void readRecord();						//è¯»å–è®°å½•
+void saveRecord();						//ä¿å­˜è®°å½•
 
 
 
@@ -45,4 +45,6 @@ typedef struct {
 Player* players;
 int player_num;
 #define map_size 40
+
+
 #endif

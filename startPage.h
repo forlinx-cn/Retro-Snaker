@@ -2,9 +2,9 @@
 #ifndef __STARTPAGE_H__
 #define __STARTPAGE_H__
 
-Player* loadStartPage();			//¼ÓÔØÆğÊ¼Ò³Ãæ
-void printMenu();				//´òÓ¡²Ëµ¥
-int haveUser(const char* username);		//ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÓÃ»§
-void showHelpInfo();				//´òÓ¡°ïÖúĞÅÏ¢
+Player* loadStartPage();				//åŠ è½½èµ·å§‹é¡µé¢
+void printMenu();						//æ‰“å°èœå•
+int haveUser(const char* username);		//åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥ç”¨æˆ·
+void showHelpInfo();					//æ‰“å°å¸®åŠ©ä¿¡æ¯
 
 #endif
