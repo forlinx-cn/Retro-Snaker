@@ -9,6 +9,7 @@
 
 void gotoXY(int x, int y);				//光标移动
 void hideCur();							//隐藏光标
+void showCur();                         //显示光标
 void setColor(int color);				//设置打印字体的颜色
 void resetColor();
 void setWindowSize(int x, int y);		//设置窗口大小

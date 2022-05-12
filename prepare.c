@@ -29,6 +29,14 @@ void hideCur() {
 	SetConsoleCursorInfo(handle, &cursor_info);
 }
 
+void showCur() {
+	CONSOLE_CURSOR_INFO cursor_info;
+	cursor_info.dwSize = 1;
+	cursor_info.bVisible = TRUE;
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorInfo(handle, &cursor_info);
+}
+
 void setColor(int color) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
