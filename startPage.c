@@ -12,6 +12,7 @@ void loadStartPage() {
 	setWindowSize(map_size * 2, map_size);
 	hideCur();
 	printMenu();
+
 }
 
 void printMenu() {

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <malloc.h>
+#include <string.h>
 
 #ifndef __CONTROL_H__
 #define __CONTROL_H__
