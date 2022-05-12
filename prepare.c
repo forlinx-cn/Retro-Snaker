@@ -1,5 +1,18 @@
 #include "prepare.h"
 
+
+#define default_color white
+enum COLOR {
+	black = 0, blue = 1, green = 2, red = 4,
+	purple = 5, yellow = 6, white = 7, grey = 8
+};
+enum TYPE { WALL, HEAD, BODY, FOOD };
+
+const RecordPATH = "data\\";
+player_num = 0;
+
+
+
 void gotoXY(int x, int y) {
 	COORD pos;
 	pos.X = x;
@@ -26,12 +39,12 @@ void resetColor() {
 
 void setWindowSize(int x, int y) {
 	char cmd[32] = { '\0' };
-	sprintf(cmd, "mode con lines=%d cols=%d", x, y);
+	sprintf(cmd, "mode con cols=%d lines=%d", x, y);
 	system(cmd);
 }
 
 void readRecord() {
-	FILE* record = fopen(RecordPATH + "Record.txt", 'r');
+	FILE* record = fopen("Record.txt", "r");
 
 	if (!record) return;
 

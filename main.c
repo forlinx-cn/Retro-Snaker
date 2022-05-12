@@ -4,5 +4,7 @@
 #include <windows.h>
 
 int main() {
+	system("title Ì°³ÔÉßĞ¡ÓÎÏ·");
+	loadStartPage();
 	return 0;
 }
