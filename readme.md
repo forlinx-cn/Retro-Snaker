@@ -46,28 +46,26 @@
 >
 > 2. 游戏开始
 >
->    | 功能       | 方法名称                                   | 备注                                                         |
->    | ---------- | ------------------------------------------ | ------------------------------------------------------------ |
->    | 蛇移动     | void snake_move();                         | 使蛇按照设定方向前进一步                                     |
->    | 蛇转向     | void direction_change(char new_direction); | 改变蛇头前进方向                                             |
->    | 障碍物判定 | int what_here();                           | 返回蛇头抵达时[^ 数据抵达]该位置上有什么                     |
->    | 蛇进食     | void snake_eat(int food);                  | 蛇进食，播放进食音频，增加得分                               |
->    | 蛇生长     | void snake_grow(int food);                 | 按照蛇吃进的食物的量，增加蛇的长度、速度                     |
->    | 蛇死亡     | void snake_death();                        | 蛇死亡，游戏结束，保存记录，提示是否重新开始或者退出游戏     |
->    | 游戏暂停   | void game_pause();                         | 按下空格键触发暂停游戏并保存记录，并提示是否退出游戏或重新开始 |
->
->    ```C
+>    | 功能     | 方法名称                                   | 备注                                                         |
+>    | -------- | ------------------------------------------ | ------------------------------------------------------------ |
+>    | 蛇移动   | void snake_move();                         | 使蛇按照设定方向前进一步                                     |
+>    | 蛇转向   | void direction_change(char new_direction); | 改变蛇头前进方向                                             |
+>    | 蛇进食   | void snake_eat(int food);                  | 蛇进食，播放进食音频，增加得分                               |
+>    | 蛇生长   | void snake_grow(int food);                 | 按照蛇吃进的食物的量，增加蛇的长度、速度                     |
+>    | 蛇死亡   | void snake_death();                        | 蛇死亡，游戏结束，保存记录，提示是否重新开始或者退出游戏     |
+>    | 游戏暂停 | void game_pause();                         | 按下空格键触发暂停游戏并保存记录，并提示是否退出游戏或重新开始 |
+>    
+>   ```C
 >    typedef struct {
 >    	int x, y;
 >    	int weight;
 >    } Food;
 >    typedef struct SnakeNode {
 >    	int x, y;
->    	struct SnakeNode* next;
 >    } SnakeNode;
 >    typedef struct {
 >    	char name[100];
->    	SnakeNode* snake;
+>    	SnakeNode snake[100];
 >    	int length;
 >    	char direction;
 >    	int score;
@@ -77,7 +75,7 @@
 >    ```
 >    
 >    ``` Record.txt
->    Record.txt文件内容格式
+>       Record.txt文件内容格式
 >    Total_Player_Num(一个整数)
 >    username1 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
 >       username2 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
