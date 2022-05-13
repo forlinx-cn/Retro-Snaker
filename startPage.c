@@ -2,10 +2,10 @@
 
 const int line = 4;
 char menu[][100] = {
-	"æ¬¢è¿æ¸¸ç©è´ªåƒè›‡å°æ¸¸æˆ",
-	"æŸ¥çœ‹å¸®åŠ©",
-	"é€€å‡ºæ¸¸æˆ",
-	"é€‰æ‹©ä½ çš„èº«ä»½"
+	"»¶Ó­ÓÎÍæÌ°³ÔÉßĞ¡ÓÎÏ·",
+	"²é¿´°ïÖú",
+	"ÍË³öÓÎÏ·",
+	"Ñ¡ÔñÄãµÄÉí·İ"
 };
 
 Player* loadStartPage() {
@@ -37,16 +37,16 @@ Player* loadStartPage() {
 	} while (ch != '\r');
 
 	if (n == line + player_num) {
-		if (username[0] == '\0') {			//ä»¥é»˜è®¤èº«ä»½ç™»å…¥
+		if (username[0] == '\0') {			//ÒÔÄ¬ÈÏÉí·İµÇÈë
 			strcat(username, "default");
 		}
-		if (haveUser(username)) {			//ä»¥usernameèº«ä»½ç™»å…¥
+		if (haveUser(username)) {			//ÒÔusernameÉí·İµÇÈë
 			for (int i = 0; i < player_num; ++i) {
 				if (strcmp(username, players[i].name) == 0)
 					return players + i;
 			}
 		}
-		else {								//åˆ›å»ºusernameå¹¶ç™»å…¥
+		else {								//´´½¨username²¢µÇÈë
 			Player newPlayer;
 			newPlayer.name[0] = '\0';
 			strcat(&(newPlayer.name), username);
@@ -55,14 +55,14 @@ Player* loadStartPage() {
 			return &newPlayer;
 		}
 	}
-	else if (n == line - 2) {		//é€€å‡ºæ¸¸æˆ
+	else if (n == line - 2) {		//ÍË³öÓÎÏ·
 		exit(0);
 	}
-	else if (n == line - 3) {		//æŸ¥çœ‹å¸®åŠ©
+	else if (n == line - 3) {		//²é¿´°ïÖú
 		showHelpInfo();
 	}
-	else if (n >= line && n < line + player_num) {		//æŒ‰é€‰ä¸­èº«ä»½ç™»å…¥
-		
+	else if (n >= line && n < line + player_num) {		//°´Ñ¡ÖĞÉí·İµÇÈë
+
 	}
 }
 

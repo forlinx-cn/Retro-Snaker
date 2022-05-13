@@ -7,39 +7,39 @@
 #ifndef __CONTROL_H__
 #define __CONTROL_H__
 
-void gotoXY(int x, int y);				//å…‰æ ‡ç§»åŠ¨
-void hideCur();							//éšè—å…‰æ ‡
-void showCur();                         //æ˜¾ç¤ºå…‰æ ‡
-void setColor(int color);				//è®¾ç½®æ‰“å°å­—ä½“çš„é¢œè‰²
+void gotoXY(int x, int y);				//¹â±êÒÆ¶¯
+void hideCur();							//Òş²Ø¹â±ê
+void showCur();                         //ÏÔÊ¾¹â±ê
+void setColor(int color);				//ÉèÖÃ´òÓ¡×ÖÌåµÄÑÕÉ«
 void resetColor();
-void setWindowSize(int x, int y);		//è®¾ç½®çª—å£å¤§å°
-void readRecord();						//è¯»å–è®°å½•
-void saveRecord();						//ä¿å­˜è®°å½•
+void setWindowSize(int x, int y);		//ÉèÖÃ´°¿Ú´óĞ¡
+void readRecord();						//¶ÁÈ¡¼ÇÂ¼
+void saveRecord();						//±£´æ¼ÇÂ¼
 
 
 
 
 typedef struct {
-    int x, y;
+	int x, y;
 } Node;
 typedef struct {
-    Node pos;
-    int weight;
+	Node pos;
+	int weight;
 } Food;
 typedef struct SnakeNode {
-    Node pos;
-    struct SnakeNode* next;
+	Node pos;
+	struct SnakeNode* next;
 } SnakeNode;
 typedef struct {
-    int length;
-    SnakeNode* head;
+	int length;
+	SnakeNode* head;
 } Snake;
 typedef struct {
-    char* name;
-    Snake* snake;
-    int score;
-    int hGameTime, tGameTime;
-    int** map;
+	char* name;
+	Snake* snake;
+	int score;
+	int hGameTime, tGameTime;
+	int** map;
 } Player;
 
 Player* players;
