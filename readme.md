@@ -58,26 +58,21 @@
 >
 >    ```C
 >    typedef struct {
->        int x, y;
->    } Node;
->    typedef struct {
->        Node pos;
->        int weight;
+>    	int x, y;
+>    	int weight;
 >    } Food;
->    typedef struct {
->        Node pos;
->        SnakeNode* next;
+>    typedef struct SnakeNode {
+>    	int x, y;
+>    	struct SnakeNode* next;
 >    } SnakeNode;
 >    typedef struct {
->        int length;
->        SnakeNode* head;
->    } Snake;
->    typedef struct {
->        char* name;
->        Snake* snake;
->        int score;
->        int hGameTime, tGameTime;
->        int** map;
+>    	char name[100];
+>    	SnakeNode* snake;
+>    	int length;
+>    	char direction;
+>    	int score;
+>    	int hGameTime, tGameTime;
+>    	int map[map_size][map_size];
 >    } Player;
 >    ```
 >    
@@ -85,12 +80,12 @@
 >    Record.txt文件内容格式
 >    Total_Player_Num(一个整数)
 >    username1 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
->    username2 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
+>       username2 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
 >    username3 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
 >    username4 snakelength 若干个snakenode坐标:(x,y) score hGameTime tGameTime foodnum 若干个个food坐标:(x,y)
 >    ...
 >    ```
->
+> 
 > 
 
 

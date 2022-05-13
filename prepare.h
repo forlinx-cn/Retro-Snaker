@@ -31,12 +31,12 @@ typedef struct {
 } Food;
 typedef struct SnakeNode {
 	int x, y;
-	struct SnakeNode* next;
 } SnakeNode;
 typedef struct {
 	char name[100];
-	SnakeNode* snake;
+	SnakeNode snake[100];
 	int length;
+	char direction;
 	int score;
 	int hGameTime, tGameTime;
 	int map[map_size][map_size];

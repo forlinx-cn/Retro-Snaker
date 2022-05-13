@@ -21,10 +21,10 @@
     <ClCompile Include="startPage.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="game.c">
+    <ClCompile Include="prepare.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="prepare.c">
+    <ClCompile Include="game.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

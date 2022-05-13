@@ -50,11 +50,11 @@ Player* loadStartPage() {
 		}
 		else {								//创建username并登入
 			Player* newPlayer = (Player*)malloc(sizeof(Player));
+			if (!newPlayer) exit(-1);
 			newPlayer->name[0] = '\0';
 			strcat(newPlayer->name, username);
 			newPlayer->hGameTime = 0;		//初始化游玩时间
 			newPlayer->tGameTime = 0;		//初始化最长纪录
-			newPlayer->snake = NULL;
 			newPlayer->length = 0;
 			return newPlayer;
 		}

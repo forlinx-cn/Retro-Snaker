@@ -53,17 +53,13 @@ void readRecord() {
 
 	if (fscanf(record, "%d", &player_num)) {
 		players = (Player*)malloc(sizeof(Player) * player_num);
+		if (!players) exit(-1);
 		for (int i = 0; i < player_num && !feof(record); ++i) {
 			fscanf(record, "%s%d", players[i].name, &(players[i].length));
 			//读取蛇
-			SnakeNode* temp = players[i].snake = (SnakeNode*)malloc(sizeof(SnakeNode));
-			fscanf(record, "(%d,%d)", &(temp->x), &(temp->y));
-			for (int j = 1; j < players[i].length; ++j) {
-				temp->next = (SnakeNode*)malloc(sizeof(SnakeNode));
-				temp = temp->next;
-				fscanf(record, "(%d,%d)", &(temp->x), &(temp->y));
+			for (int j = 0; j < players[i].length; ++j) {
+				fscanf(record, "(%d,%d)", &players[i].snake[j].x, &players[i].snake[j].y);
 			}
-			temp->next = NULL;
 			//读取食物
 			int foodnum = 0;
 			fscanf(record, "%d%d%d%d", &(players[i].score), &(players[i].hGameTime),
