@@ -16,35 +16,33 @@ void setWindowSize(int x, int y);		//设置窗口大小
 void readRecord();						//读取记录
 void saveRecord();						//保存记录
 
-
+#define map_size 40
+#define default_color white
+enum COLOR {
+	black = 0, blue = 1, green = 2, red = 4,
+	purple = 5, yellow = 6, white = 7, grey = 8
+};
+enum TYPE { EMPTY, WALL, HEAD, BODY, FOOD };
 
 
 typedef struct {
 	int x, y;
-} Node;
-typedef struct {
-	Node pos;
 	int weight;
 } Food;
 typedef struct SnakeNode {
-	Node pos;
+	int x, y;
 	struct SnakeNode* next;
 } SnakeNode;
 typedef struct {
+	char name[100];
+	SnakeNode* snake;
 	int length;
-	SnakeNode* head;
-} Snake;
-typedef struct {
-	char* name;
-	Snake* snake;
 	int score;
 	int hGameTime, tGameTime;
-	int** map;
+	int map[map_size][map_size];
 } Player;
 
 Player* players;
 int player_num;
-#define map_size 40
-
 
 #endif

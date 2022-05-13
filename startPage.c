@@ -28,7 +28,9 @@ Player* loadStartPage() {
 			n = (n + 1) % (line + player_num + 1);
 			break;
 		default:
-			if (ch == '\r') break;
+			if (ch == '\r' || n != line + player_num) break;
+			//command operation
+			char cmd[20] = { '\0' };
 			scanf("%s", username);
 			ch = '\r';
 			break;
@@ -47,12 +49,14 @@ Player* loadStartPage() {
 			}
 		}
 		else {								//创建username并登入
-			Player newPlayer;
-			newPlayer.name[0] = '\0';
-			strcat(&(newPlayer.name), username);
-			newPlayer.hGameTime = 0;
-			newPlayer.tGameTime = 0;
-			return &newPlayer;
+			Player* newPlayer = (Player*)malloc(sizeof(Player));
+			newPlayer->name[0] = '\0';
+			strcat(newPlayer->name, username);
+			newPlayer->hGameTime = 0;		//初始化游玩时间
+			newPlayer->tGameTime = 0;		//初始化最长纪录
+			newPlayer->snake = NULL;
+			newPlayer->length = 0;
+			return newPlayer;
 		}
 	}
 	else if (n == line - 2) {		//退出游戏
