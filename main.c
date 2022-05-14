@@ -13,16 +13,27 @@ int main() {
 	loadGamePage(player);
 	hideCur();
 	//游戏开始
+	player->score = 0;
+	gotoXY(map_size * 2 + 1, 0);
+	printf("%s: %3d分", player->name, player->score);
 	char dr;
 	creat_food(1, player);
 	do {
 		Sleep(1000 / player->length * 2);
 		if (_kbhit()) {
 			dr = getch();
+			if (dr == ' ') { 
+				gotoXY(0, map_size + 2);
+				system("title 贪吃蛇小游戏(已暂停)");
+				system("pause");
+				gotoXY(0, map_size + 2);
+				printf("                             ");
+				system("title 贪吃蛇小游戏");
+			}
 			direction_change(dr, player);
 		}
 	} while (snake_move(player));
-
+	system("title 贪吃蛇小游戏(已结束)");
 
 	saveRecord();
 	freePlayer(player);

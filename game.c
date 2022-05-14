@@ -39,7 +39,6 @@ void initMap(Player* _player) {
 		for (int i = 0; i < map_size; ++i) {
 			for (int j = 0; j < map_size * 2; ++j) {
 				if (i == 0 || i == map_size - 1 || j == 0 || j == map_size * 2 - 1) {		//´òÓ¡Ç½Ìå
-					_player->map[j / 2][i] = WALL;
 					gotoXY(j, i);
 					if (i == 0 && j == 0) printf("©°");
 					else if (i == 0 && j == map_size * 2 - 1) printf("©´");
@@ -47,6 +46,10 @@ void initMap(Player* _player) {
 					else if (i == map_size - 1 && j == map_size * 2 - 1) printf("©¼");
 					else if (j == 0 || j == map_size * 2 - 1) printf("©¦");
 					else printf("©¤");
+					
+				}
+				if (i == 0 || i == map_size - 1 || j / 2 == 0 || j / 2 == map_size - 1) {
+					_player->map[j / 2][i] = WALL;
 				}
 				else {
 					_player->map[j / 2][i] = EMPTY;
@@ -66,6 +69,7 @@ int snake_move(Player* _player) {
 		_player->snake[i] = _player->snake[i - 1];
 	}
 	_player->map[tail.x][tail.y] = EMPTY;
+	_player->map[_player->snake[0].x][_player->snake[0].y] = BODY;
 	switch (_player->direction) {
 	case 'w':
 		_player->snake[0].y--;
@@ -101,6 +105,7 @@ int snake_move(Player* _player) {
 }
 
 void direction_change(char new_direction, Player* _player) {
+	if (new_direction != 'w' && new_direction != 'a' && new_direction != 's' && new_direction != 'd') return;
 	if (new_direction == _player->direction) return;
 	if (new_direction == 'w' && _player->direction == 's') return;
 	if (new_direction == 's' && _player->direction == 'w') return;
@@ -130,4 +135,7 @@ void snake_growth(int weight, Player* _player, SnakeNode tail) {
 	_player->map[tail.x][tail.y] = BODY;
 	gotoXY(tail.x * 2, tail.y);
 	printf("¡ö");
+	_player->score++;
+	gotoXY(map_size * 2 + 1, 0);
+	printf("%s: %3d·Ö", _player->name, _player->score);
 }

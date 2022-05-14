@@ -68,6 +68,9 @@ Player* loadStartPage() {
 	else if (n >= line && n < line + player_num) {		//按选中身份登入
 
 	}
+	else {
+		exit(0);
+	}
 }
 
 void printMenu() {
