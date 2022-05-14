@@ -14,8 +14,9 @@ int main() {
 	hideCur();
 	//ÓÎÏ·¿ªÊ¼
 	char dr;
+	creat_food(1, player);
 	do {
-		Sleep(1000 - player->length * 100 % 701);
+		Sleep(1000 / player->length * 2);
 		if (_kbhit()) {
 			dr = getch();
 			direction_change(dr, player);

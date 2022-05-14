@@ -39,7 +39,7 @@ void initMap(Player* _player) {
 		for (int i = 0; i < map_size; ++i) {
 			for (int j = 0; j < map_size * 2; ++j) {
 				if (i == 0 || i == map_size - 1 || j == 0 || j == map_size * 2 - 1) {		//´òÓ¡Ç½Ìå
-					_player->map[i][j / 2] = WALL;
+					_player->map[j / 2][i] = WALL;
 					gotoXY(j, i);
 					if (i == 0 && j == 0) printf("©°");
 					else if (i == 0 && j == map_size * 2 - 1) printf("©´");
@@ -49,7 +49,7 @@ void initMap(Player* _player) {
 					else printf("©¤");
 				}
 				else {
-					_player->map[i][j / 2] = EMPTY;
+					_player->map[j / 2][i] = EMPTY;
 				}
 			}
 		}
@@ -65,6 +65,7 @@ int snake_move(Player* _player) {
 	for (int i = _player->length - 1; i > 0; --i) {
 		_player->snake[i] = _player->snake[i - 1];
 	}
+	_player->map[tail.x][tail.y] = EMPTY;
 	switch (_player->direction) {
 	case 'w':
 		_player->snake[0].y--;
@@ -85,14 +86,15 @@ int snake_move(Player* _player) {
 	case BODY:
 		return 0;
 	case FOOD:
-		gotoXY(tail.x * 2, tail.y);
-		printf("¡ö");
+		snake_growth(1, _player, tail);
+		creat_food(1, _player);
 		break;
 	case EMPTY:
 		break;
 	default:
 		break;
 	}
+	_player->map[_player->snake[0].x][_player->snake[0].y] = HEAD;
 	gotoXY(_player->snake[0].x * 2, _player->snake[0].y);
 	printf("¡ö");
 	return 1;
@@ -105,4 +107,27 @@ void direction_change(char new_direction, Player* _player) {
 	if (new_direction == 'a' && _player->direction == 'd') return;
 	if (new_direction == 'd' && _player->direction == 'a') return;
 	_player->direction = new_direction;
+}
+
+void creat_food(int weight, Player* _player) {
+	setColor(yellow);
+	int x, y;
+	do {
+		x = rand() % map_size;
+		y = rand() % map_size;
+	} while (_player->map[x][y] != EMPTY);
+	_player->map[x][y] = FOOD;
+	gotoXY(0, map_size + 1);
+	printf("(%2d, %2d) map = %d", x, y, _player->map[x][y]);
+	gotoXY(2 * x, y);
+	printf("¡ñ");
+	resetColor();
+}
+
+void snake_growth(int weight, Player* _player, SnakeNode tail) {
+	_player->length += weight;
+	_player->snake[_player->length - 1] = tail;
+	_player->map[tail.x][tail.y] = BODY;
+	gotoXY(tail.x * 2, tail.y);
+	printf("¡ö");
 }
