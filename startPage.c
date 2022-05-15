@@ -16,7 +16,7 @@ Player* loadStartPage() {
 	int n = line + player_num;
 	gotoXY(map_size, (map_size - line - player_num) / 2 + n);
 	char ch;
-	char username[20] = "";
+	char username[20] = { '\0' };
 	do {
 		getch();
 		ch = getch();
