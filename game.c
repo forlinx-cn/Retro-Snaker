@@ -1,11 +1,11 @@
 #include "game.h"
 
-void loadGamePage(Player* _player) {
+int loadGamePage(Player* _player) {
 	setWindowSize(map_size * 3, map_size + 6);
 	hideCur();
 	initMap(_player);
 
-	if (_player->hGameTime == 0) {
+	if (!haveUser(_player) || _player->hGameTime == 0 && !isDeath(_player->snake[0])) {
 		_player->length = _player->length ? _player->length : 3;		//初始化蛇长度
 		_player->direction = 'd';										//默认右行
 		/*---------初始化蛇--------*/
@@ -22,7 +22,8 @@ void loadGamePage(Player* _player) {
 		_player->map[_player->snake[2].x][_player->snake[2].y] = BODY;
 	}
 	printSnake(_player);
-
+	
+	return 1;
 }
 
 void printSnake(Player* _player) {
@@ -35,28 +36,34 @@ void printSnake(Player* _player) {
 
 void initMap(Player* _player) {
 	setColor(red);
-	if (_player->hGameTime == 0) {		//新玩家
-		for (int i = 0; i < map_size; ++i) {
-			for (int j = 0; j < map_size * 2; ++j) {
-				if (i == 0 || i == map_size - 1 || j == 0 || j == map_size * 2 - 1) {		//打印墙体
-					gotoXY(j, i);
-					if (i == 0 && j == 0) printf("┌");
-					else if (i == 0 && j == map_size * 2 - 1) printf("┐");
-					else if (i == map_size - 1 && j == 0) printf("└");
-					else if (i == map_size - 1 && j == map_size * 2 - 1) printf("┘");
-					else if (j == 0 || j == map_size * 2 - 1) printf("│");
-					else printf("─");
-					
-				}
-				if (i == 0 || i == map_size - 1 || j / 2 == 0 || j / 2 == map_size - 1) {
-					_player->map[j / 2][i] = WALL;
-				}
-				else {
-					_player->map[j / 2][i] = EMPTY;
-				}
+	//打印墙
+	for (int i = 0; i < map_size; ++i) {
+		for (int j = 0; j < map_size * 2; ++j) {
+			if (i == 0 || i == map_size - 1 || j == 0 || j == map_size * 2 - 1) {
+				gotoXY(j, i);
+				if (i == 0 && j == 0) printf("┌");
+				else if (i == 0 && j == map_size * 2 - 1) printf("┐");
+				else if (i == map_size - 1 && j == 0) printf("└");
+				else if (i == map_size - 1 && j == map_size * 2 - 1) printf("┘");
+				else if (j == 0 || j == map_size * 2 - 1) printf("│");
+				else printf("─");
+
+			}
+			if (i == 0 || i == map_size - 1 || j / 2 == 0 || j / 2 == map_size - 1) {
+				_player->map[j / 2][i] = WALL;
 			}
 		}
 	}
+	setColor(yellow);
+	for (int x = 1; x < map_size - 1; ++x) {			//打印墙内内容
+		for (int y = 1; y < map_size - 1; ++y) {
+			if (_player->map[x][y] == FOOD) {
+				gotoXY(2 * x, y);
+				printf("●");
+			}
+		}
+	}
+	
 	resetColor();
 }
 
@@ -91,6 +98,7 @@ int snake_move(Player* _player) {
 		return 0;
 	case FOOD:
 		snake_growth(1, _player, tail);
+		_player->food_num--;
 		creat_food(1, _player);
 		break;
 	case EMPTY:
@@ -116,16 +124,19 @@ void direction_change(char new_direction, Player* _player) {
 
 void creat_food(int weight, Player* _player) {
 	setColor(yellow);
-	int x, y;
-	do {
-		x = rand() % map_size;
-		y = rand() % map_size;
-	} while (_player->map[x][y] != EMPTY);
-	_player->map[x][y] = FOOD;
-	gotoXY(0, map_size + 1);
-	printf("(%2d, %2d) map = %d", x, y, _player->map[x][y]);
-	gotoXY(2 * x, y);
-	printf("●");
+	for (int i = _player->food_num; i < weight; ++i) {
+		int x, y;
+		do {
+			x = rand() % map_size;
+			y = rand() % map_size;
+		} while (_player->map[x][y] != EMPTY);
+		_player->map[x][y] = FOOD;
+		gotoXY(0, map_size + 1);
+		gotoXY(2 * x, y);
+		printf("●");
+
+		_player->food_num++;
+	}
 	resetColor();
 }
 
@@ -138,4 +149,8 @@ void snake_growth(int weight, Player* _player, SnakeNode tail) {
 	_player->score++;
 	gotoXY(map_size * 2 + 1, 0);
 	printf("%s: %3d分", _player->name, _player->score);
+}
+
+int isDeath(SnakeNode head) {
+	return head.x == 0 || head.y == 0 || head.x == map_size - 1 || head.y == map_size - 1;
 }

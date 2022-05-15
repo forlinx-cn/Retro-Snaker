@@ -7,17 +7,10 @@
 #ifndef __CONTROL_H__
 #define __CONTROL_H__
 
-void gotoXY(int x, int y);				//光标移动
-void hideCur();							//隐藏光标
-void showCur();                         //显示光标
-void setColor(int color);				//设置打印字体的颜色
-void resetColor();
-void setWindowSize(int x, int y);		//设置窗口大小
-void readRecord();						//读取记录
-void saveRecord();						//保存记录
 
 #define map_size 40
 #define default_color white
+#define max_lengt 40
 enum COLOR {
 	black = 0, blue = 1, green = 2, red = 4,
 	purple = 5, yellow = 6, white = 7, grey = 8
@@ -34,15 +27,27 @@ typedef struct SnakeNode {
 } SnakeNode;
 typedef struct {
 	char name[100];
-	SnakeNode snake[100];
 	int length;
+	SnakeNode snake[100];
 	char direction;
-	int score;
-	int hGameTime, tGameTime;
+	int score, hScore;
+	int hGameTime;
+	int food_num;
 	int map[map_size][map_size];
 } Player;
 
 Player* players;
 int player_num;
+
+void gotoXY(int x, int y);				//光标移动
+void hideCur();							//隐藏光标
+void showCur();                         //显示光标
+void setColor(int color);				//设置打印字体的颜色
+void resetColor();
+void setWindowSize(int x, int y);		//设置窗口大小
+void readRecord();						//读取记录
+void saveRecord(int haveNP, int haveNR, Player* np);						//保存记录
+
+
 
 #endif
