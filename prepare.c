@@ -1,8 +1,6 @@
 #include "prepare.h"
 
 
-
-
 const RecordPATH = "";
 int player_num = 0;
 
@@ -51,23 +49,21 @@ void readRecord() {
 
 	if (!record) return;
 	char ch = '\0';
-	if (fscanf(record, "%d", &player_num)) {
+	if (fscanf(record, "%d", &player_num) && !feof(record)) {
 		players = (Player*)malloc(sizeof(Player) * player_num);
 		if (!players) exit(-1);
+		
 		for (int i = 0; i < player_num && !feof(record); ++i) {
+			initPlayer(players + i, "");
 			fscanf(record, "%s%d", players[i].name, &(players[i].length));
-			for (int x = 1; x < map_size - 1; ++x) {
-				for (int y = 1; y < map_size - 1; ++y) {
-					players[i].map[x][y] = EMPTY;
-				}
-			}
 			//读取蛇
 			for (int j = 0; j < players[i].length; ++j) {
 				fscanf(record, " (%d,%d)", &players[i].snake[j].x, &players[i].snake[j].y);
 				players[i].map[players[i].snake[j].x][players[i].snake[j].y] = BODY;
 				if (fgetc(record) == '\n') break;
 			}
-			players[i].map[players[i].snake[0].x][players[i].snake[0].y] = HEAD;
+			players[i].map[players[i].snake[0].x][players[i].snake[0].y] = 
+				players[i].map[players[i].snake[0].x][players[i].snake[0].y] == WALL ? WALL : HEAD;
 			//读取前进方向
 			players[i].direction = fgetc(record);
 			if (players[i].direction != 'a' && players[i].direction != 'w' &&
@@ -90,21 +86,17 @@ void readRecord() {
 				players[i].map[x][y] = FOOD;
 				if (fgetc(record) == '\n') break;
 			}
-
 		}
 	}
 
 	fclose(record);
 }
 
-void saveRecord(int haveNP, int haveNR, Player* np) {
-	if (!(haveNP && np) && !haveNR && np->hGameTime == 0) return;
+void saveRecord(Player* _player) {
 	FILE* record = fopen("Record.txt", "w");
 	if (!record) return;
 
-	
-
-	fprintf(record, "%d\n", player_num + haveNP);
+	fprintf(record, "%d\n", player_num + !haveUser(_player));
 	for (int i = 0; i < player_num; ++i) {
 		fprintf(record, "%s %d", players[i].name, players[i].length);
 		for (int j = 0; j < players[i].length; ++j) {
@@ -124,6 +116,7 @@ void saveRecord(int haveNP, int haveNR, Player* np) {
 				if (players[i].map[x][y] == FOOD) {
 					fprintf(record, " (%d,%d)", x, y);
 					temp--;
+					if (!temp) { x = map_size; y = map_size; }
 				}
 			}
 		}
@@ -132,29 +125,61 @@ void saveRecord(int haveNP, int haveNR, Player* np) {
 		}
 		fprintf(record, "\n");
 	}
-	if (haveNP && np) {
-		fprintf(record, "%s %d", np->name, np->length);
-		for (int j = 0; j < np->length; ++j) {
-			fprintf(record, " (%d,%d)", np->snake[j].x, np->snake[j].y);
+	//新玩家的保存
+	if (!haveUser(_player)) {
+		fprintf(record, "%s %d", _player->name, _player->length);
+		for (int j = 0; j < _player->length; ++j) {
+			fprintf(record, " (%d,%d)", _player->snake[j].x, _player->snake[j].y);
 		}
 		fprintf(record, "\n");
-		fprintf(record, "%c ", np->direction);
-		if (np->score > np->hScore) np->hScore = np->score;
-		fprintf(record, "%d %d %d ", np->score, np->hScore, np->hGameTime);
-		fprintf(record, "%d", np->food_num);
-		int temp = np->food_num;
+		fprintf(record, "%c ", _player->direction);
+		if (_player->score > _player->hScore) _player->hScore = _player->score;
+		fprintf(record, "%d %d %d ", _player->score, _player->hScore, _player->hGameTime);
+		fprintf(record, "%d", _player->food_num);
+		int temp = _player->food_num;
 		for (int y = 1; y < map_size - 1; ++y) {
 			for (int x = 1; x < map_size - 1; ++x) {
-				if (np->map[x][y] == FOOD) {
+				if (_player->map[x][y] == FOOD) {
 					fprintf(record, " (%d,%d)", x, y);
 					temp--;
+					if (!temp) { x = map_size; y = map_size; }
 				}
 			}
-		}
-		if (temp) {
-			printf("食物数据有误");
 		}
 		fprintf(record, "\n");
 	}
 	fclose(record);
+}
+
+void initPlayer(Player* _player, const char* username) {
+	if (!_player) exit(-1);
+	if (_player->name != username) {			//新玩家
+		_player->name[0] = '\0';
+		strcat(_player->name, username);
+		_player->hScore = 0;		//初始化最长纪录
+	}
+	else {					//重开
+		_player->length = 0;
+		_player->direction = 'd';
+		_player->score = 0;			//初始化得分
+		_player->hGameTime = 0;		//初始化游玩时间
+		_player->food_num = 0;
+	}
+	
+	//初始化地图
+	for (int x = 0; x < map_size; ++x) {
+		for (int y = 0; y < map_size; ++y) {
+			_player->map[x][y] = EMPTY;
+			if (x == 0 || x == map_size - 1 || y == 0 || y == map_size -1) _player->map[x][y] = WALL;
+		}
+	}
+}
+
+int haveUser(const char* username) {
+	for (int i = 0; i < player_num; ++i) {
+		if (strcmp(username, players[i].name) == 0) {
+			return i + 1;
+		}
+	}
+	return 0;
 }

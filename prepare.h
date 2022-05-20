@@ -46,8 +46,8 @@ void setColor(int color);				//设置打印字体的颜色
 void resetColor();
 void setWindowSize(int x, int y);		//设置窗口大小
 void readRecord();						//读取记录
-void saveRecord(int haveNP, int haveNR, Player* np);						//保存记录
-
-
+void saveRecord(Player* _player);						//保存记录
+void initPlayer(Player* _player, const char* username);
+int haveUser(const char* username);		//判断是否存在该用户
 
 #endif
