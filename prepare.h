@@ -15,7 +15,7 @@ enum COLOR {
 	black = 0, blue = 1, green = 2, red = 4,
 	purple = 5, yellow = 6, white = 7, grey = 8
 };
-enum TYPE { EMPTY, WALL, HEAD, BODY, FOOD };
+enum TYPE { EMPTY, WALL, HEAD, BODY, FOOD, BARRIER };
 
 
 typedef struct {

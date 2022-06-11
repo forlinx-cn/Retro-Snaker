@@ -37,6 +37,10 @@ int main() {
 	printf("%s: %3d分 （历史最高得分）", player->name, player->hScore);
 	char dr;
 	creat_food(1, player);
+	//建立5个障碍物,每次重开障碍物会刷新
+	for (int i = 0; i < 5; ++i) {
+		creat_barrier(player);
+	}
 	do {
 		Sleep(1000 / player->length * 2 + 100);
 		player->hGameTime += (1000 / player->length * 2 + 100);
@@ -48,7 +52,7 @@ int main() {
 			}
 			direction_change(dr, player);
 		}
-	} while (snake_move(player));
+	} while (snake_move(player) || player->score == 30);
 	player->hGameTime = 0;
 	system("title 贪吃蛇小游戏(已结束) 正在保存记录……");
 

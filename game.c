@@ -94,6 +94,7 @@ int snake_move(Player* _player) {
 	{
 	case WALL:
 	case BODY:
+	case BARRIER:
 		return 0;
 	case FOOD:
 		snake_growth(1, _player, tail);
@@ -136,6 +137,20 @@ void creat_food(int weight, Player* _player) {
 
 		_player->food_num++;
 	}
+	resetColor();
+}
+
+void creat_barrier(Player* _player) {
+	setColor(red);
+	int x, y;
+	do {
+		x = rand() % map_size;
+		y = rand() % map_size;
+	} while (_player->map[x][y] != EMPTY);
+	_player->map[x][y] = BARRIER;
+	gotoXY(0, map_size + 1);
+	gotoXY(2 * x, y);
+	printf("¡ñ");
 	resetColor();
 }
 

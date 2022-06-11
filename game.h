@@ -12,6 +12,7 @@ void printSnake(Player* _player);		//打印蛇
 int snake_move(Player* _player);						//蛇移动
 void direction_change(char new_direction, Player* _player);	//蛇转向
 void creat_food(int weight, Player* _player);			//生成食物
+void creat_barrier(Player* _player);
 void snake_growth(int weight, Player* _player, SnakeNode tail);			//蛇生长
 int isDeath(Player* _player);
 
