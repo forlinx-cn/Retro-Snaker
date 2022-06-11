@@ -1,7 +1,6 @@
 #include "prepare.h"
 
 
-const RecordPATH = "";
 int player_num = 0;
 
 
@@ -158,13 +157,12 @@ void initPlayer(Player* _player, const char* username) {
 		strcat(_player->name, username);
 		_player->hScore = 0;		//初始化最长纪录
 	}
-	else {					//重开
-		_player->length = 0;
-		_player->direction = 'd';
-		_player->score = 0;			//初始化得分
-		_player->hGameTime = 0;		//初始化游玩时间
-		_player->food_num = 0;
-	}
+	//重开与新玩家共同初始化
+	_player->length = 0;
+	_player->direction = 'd';
+	_player->score = 0;			//初始化得分
+	_player->hGameTime = 0;		//初始化游玩时间
+	_player->food_num = 0;
 	
 	//初始化地图
 	for (int x = 0; x < map_size; ++x) {
