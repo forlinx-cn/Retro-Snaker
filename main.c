@@ -12,14 +12,35 @@ int main() {
 	Player* player;
 	while (!(player = loadStartPage())) system("cls");
 	while (!loadGamePage(player)) system("cls");
+	if (player->hGameTime == 0 && player->length > 3) {
+		gotoXY(0, map_size + 1);
+		printf("你已死亡，是否重新开始游戏？(Y/N) > ");
+		showCur();
+		char ch = getchar();
+		switch (ch)
+		{
+		case 'Y':
+		case 'y':
+			initPlayer(player, player->name);
+			while (!loadGamePage(player)) system("cls");
+			break;
+		default:
+			exit(0);
+			break;
+		}
+	}
 	hideCur();
 	//游戏开始
 	gotoXY(map_size * 2 + 1, 0);
 	printf("%s: %3d分 （实时得分）", player->name, player->score);
 	gotoXY(map_size * 2 + 1, 1);
-	printf("%s: %3d分", player->name, player->hScore);
+	printf("%s: %3d分 （历史最高得分）", player->name, player->hScore);
 	char dr;
 	creat_food(1, player);
+	//建立5个障碍物,每次重开障碍物会刷新
+	for (int i = 0; i < 5; ++i) {
+		creat_barrier(player);
+	}
 	do {
 		Sleep(1000 / player->length * 2 + 100);
 		player->hGameTime += (1000 / player->length * 2 + 100);
@@ -31,11 +52,11 @@ int main() {
 			}
 			direction_change(dr, player);
 		}
-	} while (!isDeath(player->snake[0]) && snake_move(player));
+	} while (snake_move(player) || player->score == 30);
 	player->hGameTime = 0;
 	system("title 贪吃蛇小游戏(已结束) 正在保存记录……");
 
-	saveRecord(!haveUser(player->name), player->score > player->hScore, player);			//新玩家或者新纪录
+	saveRecord(player);			//新玩家或者新纪录
 	system("title 贪吃蛇小游戏(已结束)");
 	freePlayer(player);
 	gotoXY(0, map_size + 2);
@@ -59,7 +80,7 @@ void freePlayer(Player* _player) {
 }
 
 void game_pause(Player* _player) {
-	saveRecord(!haveUser(_player->name), _player->score > _player->hScore, _player);	//保存记录
+	saveRecord(_player);	//保存记录
 	gotoXY(0, map_size + 2);
 	system("title 贪吃蛇小游戏(已暂停)");
 	system("pause");

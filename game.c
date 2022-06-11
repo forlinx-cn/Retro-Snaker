@@ -5,9 +5,8 @@ int loadGamePage(Player* _player) {
 	hideCur();
 	initMap(_player);
 
-	if (!haveUser(_player) || _player->hGameTime == 0 && !isDeath(_player->snake[0])) {
+	if (_player->length == 0) {				//如果是新玩家或新游戏就初始化蛇
 		_player->length = _player->length ? _player->length : 3;		//初始化蛇长度
-		_player->direction = 'd';										//默认右行
 		/*---------初始化蛇--------*/
 		srand(time(NULL));
 		_player->snake[0].x = rand() % (map_size - 10) + 5;
@@ -95,6 +94,7 @@ int snake_move(Player* _player) {
 	{
 	case WALL:
 	case BODY:
+	case BARRIER:
 		return 0;
 	case FOOD:
 		snake_growth(1, _player, tail);
@@ -140,6 +140,20 @@ void creat_food(int weight, Player* _player) {
 	resetColor();
 }
 
+void creat_barrier(Player* _player) {
+	setColor(red);
+	int x, y;
+	do {
+		x = rand() % map_size;
+		y = rand() % map_size;
+	} while (_player->map[x][y] != EMPTY);
+	_player->map[x][y] = BARRIER;
+	gotoXY(0, map_size + 1);
+	gotoXY(2 * x, y);
+	printf("●");
+	resetColor();
+}
+
 void snake_growth(int weight, Player* _player, SnakeNode tail) {
 	_player->length += weight;
 	_player->snake[_player->length - 1] = tail;
@@ -151,6 +165,6 @@ void snake_growth(int weight, Player* _player, SnakeNode tail) {
 	printf("%s: %3d分", _player->name, _player->score);
 }
 
-int isDeath(SnakeNode head) {
-	return head.x == 0 || head.y == 0 || head.x == map_size - 1 || head.y == map_size - 1;
+int isDeath(Player* _player) {
+	return _player->hGameTime == 0 && _player->length > 3;
 }

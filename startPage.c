@@ -16,7 +16,7 @@ Player* loadStartPage() {
 	int n = line + player_num;
 	gotoXY(map_size, (map_size - line - player_num) / 2 + n);
 	char ch;
-	char username[20] = "";
+	char username[20] = { '\0' };
 	do {
 		getch();
 		ch = getch();
@@ -66,20 +66,7 @@ Player* loadStartPage() {
 			case 'Y':
 			case 'y':
 				newPlayer = (Player*)malloc(sizeof(Player));
-				if (!newPlayer) exit(-1);
-				newPlayer->name[0] = '\0';
-				strcat(newPlayer->name, username);
-				newPlayer->hGameTime = 0;		//初始化游玩时间
-				newPlayer->score = 0;			//初始化得分
-				newPlayer->hScore = 0;		    //初始化最长纪录
-				newPlayer->length = 0;
-				newPlayer->food_num = 0;
-				//初始化地图
-				for (int x = 1; x < map_size - 1; ++x) {
-					for (int y = 1; y < map_size - 1; ++y) {
-						newPlayer->map[x][y] = EMPTY;
-					}
-				}
+				initPlayer(newPlayer, username);
 				return newPlayer;
 			case 'N':
 			case 'n':
@@ -118,14 +105,7 @@ void printMenu() {
 	putchar('\n');
 }
 
-int haveUser(const char* username) {
-	for (int i = 0; i < player_num; ++i) {
-		if (strcmp(username, players[i].name) == 0) {
-			return i + 1;
-		}
-	}
-	return 0;
-}
+
 
 void showHelpInfo() {
 	system("cls");
