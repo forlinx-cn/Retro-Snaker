@@ -12,7 +12,9 @@ int main() {
 	Player* player;
 	while (!(player = loadStartPage())) system("cls");
 	while (!loadGamePage(player)) system("cls");
-	if (player->hGameTime == 0 && player->length > 3) {
+	if (player->hGameTime == 0 && player->length > 3 ||
+		player->snake[0].x == 0 || player->snake[0].y == 0 ||
+		player->snake[0].x  == map_size - 1 || player->snake[0].y == map_size - 1) {
 		gotoXY(0, map_size + 1);
 		printf("你已死亡，是否重新开始游戏？(Y/N) > ");
 		showCur();
